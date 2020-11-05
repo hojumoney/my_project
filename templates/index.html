@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="ko">
 
@@ -22,7 +21,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
     <title>페이지 태그 체커</title>
 
-
     <style type="text/css">
         * {
             font-family: 'Noto Sans KR', sans-serif;
@@ -38,30 +36,86 @@
             font-weight: bold;
         }
 
-        .check_button {
+        .btn {
             color: white;
             background-color: blue;
         }
 
+        .head_text {
+            text-align: center;
+        }
+
+
     </style>
+
+    <script>
+        function check_url() {
+            let url = $('#url_input').val()
+
+            $.ajax({
+                type: "POST",
+                url: "/check",
+                data: {
+                    'url_give': url,
+                },
+                success: function (response) { // 성공하면
+                    if (response["result"] == "success") {
+                        alert(response["msg"])
+                        console.log(response["data"])
+                        //location.reload()
+                    }
+                }
+            })
+
+        function show_tags() {
+            $.ajax({
+                type: "GET",
+                url: "/check",
+                data: {
+                }
+            })
+        }
+        }
+    </script>
+
 
 </head>
 
-
 <body>
+
 <div class="wrap">
     <div class="jumbotron">
         <h1 class="jumbotron_title">페이지 태그 체커</h1>
         <p class="lead">SNS공유 이미지 태그, 메시지 태그 및 성과체크용 태그가 제대로 세팅됐는지 확인해보세요!</p>
         <div class="col-lg-6">
             <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search for...">
+                <input type="text" class="form-control" id="url_input" placeholder="Search for...">
                 <span class="input-group-btn">
-        <button class="check_button" type="button"> 체크하기 </button>
-                </span>
+                       <button onclick="check_url()" class="btn btn-default" type="button">Go!</button>
+                    </span>
             </div><!-- /input-group -->
-        </div>
+        </div><!-- /.col-lg-6 -->
         <hr class="my-4">
+    </div>
+
+    <div class="kakao">
+        <h4 class='head_text'> 카카오톡 공유 시 노출화면 예시</h4>
+        <br>
+    </div>
+
+    <div class="facebook">
+        <h4 class='head_text'> 페이스북 공유 시 노출화면 예시</h4>
+        <br>
+    </div>
+
+    <div class="twitter">
+        <h4 class='head_text'> 트위터 공유 시 노출화면 예시</h4>
+        <br>
+    </div>
+
+    <div class="GA">
+        <h4 class='head_text'> 세팅된 구글 애널리틱스 태그리스트</h4>
+        <br>
     </div>
 </div>
 </body>
