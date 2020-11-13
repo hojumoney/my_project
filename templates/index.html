@@ -43,38 +43,214 @@
 
         .head_text {
             text-align: center;
+            background-color: lightgray;
         }
 
+        .Last_Comment {
+            text-align: center;
+        }
+
+        .title_description_2 {
+            font-size: small;
+        }
+
+        #kakao_title {
+            font-size: 22px;
+            color: black;
+        }
+
+        #kakao_url {
+            font-size: 14px;
+            color: gray;
+        }
+
+        .kakao_2 {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .kakao_2_footer {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #kakao_title {
+            width: 300px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        #kakao_desc {
+            width: 300px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: 20px;
+            color: dimgray;
+        }
+
+        .facebook_2 {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .facebook_2_footer {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #facebook_title {
+            width: 400px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: 16px;
+        }
+
+        #facebook_desc {
+            width: 400px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: 14px
+        }
+
+        #facebook_url {
+            width: 400px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: 8px
+        }
+
+        .twitter_1 {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .twitter_1 .head_text {
+            width: 100%;
+        }
+
+        .twitter_2 {
+            margin-top: 18px;
+            display: flex;
+            width: 509px;
+            height: 125.44px;
+        }
+
+        .twitter_2_footer {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #twitter_title {
+            margin-top: 10px;
+            margin-left: 10px;
+            width: 400px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        #twitter_desc {
+            margin-left: 10px;
+            width: 400px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            color: gray;
+        }
+
+        #twitter_url {
+            margin-left: 10px;
+            width: 400px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: gray;
+        }
+
+        .output {
+        }
 
     </style>
 
     <script>
-        function check_url() {
+
+        function checkUrl(url) {
+            return url.startsWith('http')
+        }
+
+
+        function showTags() {
             let url = $('#url_input').val()
 
-            $.ajax({
-                type: "POST",
-                url: "/check",
-                data: {
-                    'url_give': url,
-                },
-                success: function (response) { // 성공하면
-                    if (response["result"] == "success") {
-                        alert(response["msg"])
-                        console.log(response["data"])
-                        //location.reload()
-                    }
-                }
-            })
+            if (checkUrl(url)) {
+                $.ajax({
+                    type: "POST",
+                    url: "/show_tags",
+                    data: {
+                        'url_give': url,
+                    },
+                    success: function (response) {
+                        if (response["result"] == "success") {
+                            alert(response["msg"])
+                            let data = response["data"]
+                            console.log(data)
+                            let twitter_tittle = data["twitter_title"]
+                            let twitter_desc = data["twitter_desc"]
+                            let twitter_url = data["twitter_url"]
+                            let twitter_img = data["twitter_img"]
 
-        function show_tags() {
-            $.ajax({
-                type: "GET",
-                url: "/check",
-                data: {
-                }
-            })
+                            makeKakaoCard(data["fbkakao_title"], data["fbkakao_desc"], data["fbkakao_image"], data["fbkakao_url"])
+                            // makeKakaoCard(data["fbkakao_title"], data["fbkakao_desc"], data["fbkakao_image"], data["fbkakao_url"])
+//
+//                                 let temp = `<div class="card">
+//                                                 <img class="card-img-top"
+//                                                      src="${image}"
+//                                                      alt="Card image cap">
+//                                                 <div class="card-body">
+//                                                     <a href="${url}" class="card-title">${title}</a>
+//                                                     <p class="card-text">${desc}</p>
+//                                                     <p class="card-text comment">${comment}</p>
+//                                                 </div>
+// <!--                                            </div>-->`
+//                                     $('#cards-box').append(temp)
+
+
+                            $('#아이디 재설정필요fbkakao_image_area').attr('src', fbkakao_image)
+                            $('#fbkakao_title_area').attr('src', fbkakao_image)
+                            //location.reload()
+                        }
+                    }
+                })
+
+            } else {
+                alert("입력한 URL 이 http로 시작하지 않습니다.")
+            }
         }
+
+        function makeKakaoCard(title, desc, image, url) {
+            let crawling_kakao = `<h4 class='head_text'> 카카오톡 공유 시 노출화면 예시</h4>
+            <div class="kakao_2">
+                <br>
+                <img src="${url}" alt="" id="kakao_image_area"
+                     height="150" width="300">
+                <div class="kakao_2_footer">
+                    <div id="kakao_title"> ${title} </div>
+                    <div id="kakao_desc"> ${desc} </div>
+                    <div id="kakao_url"> ${url}</div>
+                </div>
+            </div>`
+
+            $("#kakao_tag").append(crawling_kakao)
         }
     </script>
 
@@ -86,38 +262,79 @@
 <div class="wrap">
     <div class="jumbotron">
         <h1 class="jumbotron_title">페이지 태그 체커</h1>
-        <p class="lead">SNS공유 이미지 태그, 메시지 태그 및 성과체크용 태그가 제대로 세팅됐는지 확인해보세요!</p>
+        <span class="title_description_1">SNS공유 이미지 태그, 메시지 태그 및 성과체크용 태그가 제대로 세팅됐는지 확인해보세요!</span>
+        <br>
+        <span class="title_description_2">주의: " https:// " 이 포함되어야 합니다. 웹브라우저의 url입력창을 복사해서 아래에 붙여넣는 게 제일 정확합니다.</span>
+        <br>
         <div class="col-lg-6">
             <div class="input-group">
                 <input type="text" class="form-control" id="url_input" placeholder="Search for...">
                 <span class="input-group-btn">
-                       <button onclick="check_url()" class="btn btn-default" type="button">Go!</button>
+                       <button onclick="showTags()" class="btn btn-default" type="button">Go!</button>
                     </span>
             </div><!-- /input-group -->
         </div><!-- /.col-lg-6 -->
         <hr class="my-4">
     </div>
 
-    <div class="kakao">
-        <h4 class='head_text'> 카카오톡 공유 시 노출화면 예시</h4>
-        <br>
-    </div>
+    <div class="output">
 
-    <div class="facebook">
-        <h4 class='head_text'> 페이스북 공유 시 노출화면 예시</h4>
+        <div id="kakao_tag" class="kakao_1">
+        </div>
         <br>
-    </div>
+        <br>
 
-    <div class="twitter">
-        <h4 class='head_text'> 트위터 공유 시 노출화면 예시</h4>
+        <div class="facebook_1">
+            <h4 class='head_text'> 페이스북 공유 시 노출화면 예시</h4>
+            <div class="facebook_2">
+                <br>
+                <img src="https://static.wanted.co.kr/images/facebook_image_final.jpg" alt="" id="facebook_image_area"
+                     height="210" width="400">
+                <div class="facebook_2_footer">
+                    <div id="facebook_url"> https://www.wanted.co.kr/</div>
+                    <div id="facebook_title"> 커리어 여정을 행복하게, 원티드</div>
+                    <div id="facebook_desc"> 커리어 성장과 행복을 위한 여정, 지금 원티드에서 시작하세요.</div>
+                </div>
+            </div>
+        </div>
         <br>
-    </div>
+        <br>
 
-    <div class="GA">
-        <h4 class='head_text'> 세팅된 구글 애널리틱스 태그리스트</h4>
+        <div class="twitter_1">
+            <h4 class='head_text'> 트위터 공유 시 노출화면 예시</h4>
+            <div class="twitter_2">
+                <br>
+                <img src="https://static.wanted.co.kr/images/facebook_image_final.jpg" alt="" id="twitter_image_area"
+                     height="120" width="120">
+                <div class="twitter_2_footer">
+                    <div id="twitter_title"> 커리어 여정을 행복하게, 원티드</div>
+                    <div id="twitter_desc"> 커리어 성장과 행복을 위한 여정, 지금 원티드에서 시작하세요.커리어 성장과 행복을 위한 여정, 지금 원티드에서 시작하세요.</div>
+                    <div id="twitter_url"> https://www.wanted.co.kr/</div>
+
+                </div>
+            </div>
+        </div>
         <br>
+        <br>
+
+
+        <div class="GA">
+            <h4 class='head_text'> --</h4>
+            <br>
+        </div>
+
+        <div class="Last_Comment">
+            바라는점, 개선필요사항 등이 있다면 언제든 메일주세요! <br>
+            hojun0090@naver.com
+        </div>
+        <br>
+        <br>
+        <br>
+
+
     </div>
 </div>
+
 </body>
 
 </html>
