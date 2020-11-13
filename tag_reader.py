@@ -51,7 +51,7 @@ def check_url(url_receive):
         result['fbkakao_url'] = None
         print('no fbkakao_url')
 
-    twitter_image = soup.select_one('meta[property="twitter:image"]')
+    twitter_image = soup.select_one('meta[name="twitter:image"]')
     if twitter_image is not None:
         result['twitter_image'] = twitter_image['content']
         print('twitter_image : ', twitter_image['content'])
@@ -59,7 +59,7 @@ def check_url(url_receive):
         result['twitter_image'] = None
         print('no twitter_image')
 
-    twitter_title = soup.select_one('meta[property="twitter:title"]')
+    twitter_title = soup.select_one('meta[name="twitter:title"]')
     if twitter_title is not None:
         result['twitter_title'] = twitter_title['content']
         print('twitter_title : ', twitter_title['content'])
@@ -67,7 +67,7 @@ def check_url(url_receive):
         result['twitter_title'] = None
         print('no twitter_title')
 
-    twitter_desc = soup.select_one('meta[property="twitter:description"]')
+    twitter_desc = soup.select_one('meta[name="twitter:description"]')
     if twitter_desc is not None:
         result['twitter_desc'] = twitter_desc['content']
         print('twitter_desc : ', twitter_desc['content'])
@@ -75,13 +75,13 @@ def check_url(url_receive):
         result['twitter_desc'] = None
         print('no twitter_desc')
 
-    twitter_sitename = soup.select_one('meta[property="twitter:sitename"]')
-    if twitter_sitename is not None:
-        result['twitter_sitename'] = twitter_sitename['content']
-        print('twitter_sitename : ', twitter_sitename['content'])
+    twitter_url = soup.select_one('meta[name="twitter:url"]')
+    if twitter_url is not None:
+        result['twitter_url'] = twitter_url['content']
+        print('twitter_url : ', twitter_url['content'])
     else:
-        result['twitter_sitename'] = None
-        print('no twitter_sitename')
+        result['twitter_url'] = None
+        print('no twitter_url')
 
     #print(fbkakao_desc, fbkakao_image, fbkakao_title, fbkakao_sitename, fbkakao_url, twitter_desc, twitter_image, twitter_title, twitter_sitename)
     return result

@@ -204,25 +204,17 @@
                             alert(response["msg"])
                             let data = response["data"]
                             console.log(data)
-                            let twitter_tittle = data["twitter_title"]
-                            let twitter_desc = data["twitter_desc"]
-                            let twitter_url = data["twitter_url"]
-                            let twitter_img = data["twitter_img"]
+                            // 근데 왜 이건 아래 let 들을 안써도 되는거지? 무슨차이지?
+                            // let twitter_tittle = data["twitter_title"]
+                            // let twitter_desc = data["twitter_desc"]
+                            // let twitter_url = data["twitter_url"]
+                            // let twitter_img = data["twitter_img"]
 
                             makeKakaoCard(data["fbkakao_title"], data["fbkakao_desc"], data["fbkakao_image"], data["fbkakao_url"])
-                            // makeKakaoCard(data["fbkakao_title"], data["fbkakao_desc"], data["fbkakao_image"], data["fbkakao_url"])
+                            makeFacebookCard(data["fbkakao_title"], data["fbkakao_desc"], data["fbkakao_image"], data["fbkakao_url"])
+                            makeTwitterCard(data["twitter_title"], data["twitter_desc"], data["twitter_image"], data["twitter_url"])
+
 //
-//                                 let temp = `<div class="card">
-//                                                 <img class="card-img-top"
-//                                                      src="${image}"
-//                                                      alt="Card image cap">
-//                                                 <div class="card-body">
-//                                                     <a href="${url}" class="card-title">${title}</a>
-//                                                     <p class="card-text">${desc}</p>
-//                                                     <p class="card-text comment">${comment}</p>
-//                                                 </div>
-// <!--                                            </div>-->`
-//                                     $('#cards-box').append(temp)
 
 
                             $('#아이디 재설정필요fbkakao_image_area').attr('src', fbkakao_image)
@@ -244,14 +236,53 @@
                 <img src="${url}" alt="" id="kakao_image_area"
                      height="150" width="300">
                 <div class="kakao_2_footer">
-                    <div id="kakao_title"> ${title} </div>
-                    <div id="kakao_desc"> ${desc} </div>
-                    <div id="kakao_url"> ${url}</div>
+                    <div id="kakao_title">${title}</div>
+                    <div id="kakao_desc">${desc}</div>
+                    <div id="kakao_url">${url}</div>
                 </div>
             </div>`
 
             $("#kakao_tag").append(crawling_kakao)
         }
+
+
+        function makeFacebookCard(title, desc, image, url) {
+            let crawling_facebook = ` <h4 class='head_text'> 페이스북 공유 시 노출화면 예시</h4>
+            <div class="facebook_2">
+                <br>
+                <img src="${image}" alt="" id="facebook_image_area"
+                     height="210" width="400">
+                <div class="facebook_2_footer">
+                    <div id="facebook_url">${url}</div>
+                    <div id="facebook_title">${title}</div>
+                    <div id="facebook_desc">${desc}</div>
+                </div>
+            </div>`
+
+            $("#facebook_tag").append(crawling_facebook)
+        }
+
+        function makeTwitterCard(title, desc, image, url) {
+            let crawling_twitter = `<h4 class='head_text'> 트위터 공유 시 노출화면 예시</h4>
+            <div class="twitter_2">
+                <br>
+                <img src="${image}" alt="" id="twitter_image_area"
+                     height="120" width="120">
+                <div class="twitter_2_footer">
+                    <div id="twitter_title">${title}</div>
+                    <div id="twitter_desc">${desc}</div>
+                    <div id="twitter_url">${url}</div>
+
+                </div>
+            </div>
+`
+
+            $("#facebook_tag").append(crawling_twitter)
+        }
+
+
+
+
     </script>
 
 
@@ -284,35 +315,12 @@
         <br>
         <br>
 
-        <div class="facebook_1">
-            <h4 class='head_text'> 페이스북 공유 시 노출화면 예시</h4>
-            <div class="facebook_2">
-                <br>
-                <img src="https://static.wanted.co.kr/images/facebook_image_final.jpg" alt="" id="facebook_image_area"
-                     height="210" width="400">
-                <div class="facebook_2_footer">
-                    <div id="facebook_url"> https://www.wanted.co.kr/</div>
-                    <div id="facebook_title"> 커리어 여정을 행복하게, 원티드</div>
-                    <div id="facebook_desc"> 커리어 성장과 행복을 위한 여정, 지금 원티드에서 시작하세요.</div>
-                </div>
-            </div>
+        <div id="facebook_tag" class="facebook_1">
         </div>
         <br>
         <br>
 
         <div class="twitter_1">
-            <h4 class='head_text'> 트위터 공유 시 노출화면 예시</h4>
-            <div class="twitter_2">
-                <br>
-                <img src="https://static.wanted.co.kr/images/facebook_image_final.jpg" alt="" id="twitter_image_area"
-                     height="120" width="120">
-                <div class="twitter_2_footer">
-                    <div id="twitter_title"> 커리어 여정을 행복하게, 원티드</div>
-                    <div id="twitter_desc"> 커리어 성장과 행복을 위한 여정, 지금 원티드에서 시작하세요.커리어 성장과 행복을 위한 여정, 지금 원티드에서 시작하세요.</div>
-                    <div id="twitter_url"> https://www.wanted.co.kr/</div>
-
-                </div>
-            </div>
         </div>
         <br>
         <br>
@@ -324,7 +332,7 @@
         </div>
 
         <div class="Last_Comment">
-            바라는점, 개선필요사항 등이 있다면 언제든 메일주세요! <br>
+            피드백 언제나 대환영! <br>
             hojun0090@naver.com
         </div>
         <br>
